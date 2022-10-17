@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+  <title>Big O Notation in JS</title>
+  <meta name="description" content="Big O notation se centra en el peor de los casos y se puede utilizar para describir el tiempo/espacio de ejecución mediante un algoritmo. Exploremos ahora los tipos más comunes...">
+
+  <link rel="canonical" href="http://localhost:4000/2018/03/03/big-o-notation-in-js/">
+  
+</head>
+
+
+<body>
+
+<section>
+  <div class="container py-4">
+    <main role="main" class="container" style="padding: 60px;">
+      <div class="row">
+        <div class="col-md-8 blog-main">
+          <div class="blog-post">
+            <h2 class="blog-post-title">Big O Notation in JS</h2>
+            <p class="blog-post-meta">by <a href="#">Jordan Piero Borda Colque</a></p>
+            <p><img src="../../../../assets/img/posts/2022/bigo_1.png" class="img-fluid" alt="Big O Notations" /><p></p>
+Big O notation se centra en el peor de los casos y se puede utilizar para describir el tiempo/espacio de ejecución mediante un algoritmo.
+Exploremos ahora los tipos más comunes de notaciones Big O. Usaremos ejemplos de Vanilla JS y ECMA6.</p>
+
+<p><img src="/assets/img/posts/2022/3_space.png" class="img-fluid" alt="Big O Notations" /></p>
+
+<p>Para ilustrar los resultados, usaremos el tiempo (milisegundos - ms) y el espacio (tamaño de la matriz).</p>
+
+<p>Probar configuraciones de entradas de datos</p>
+
+<p>Para probar el espacio de datos utilizando una matriz de 3 con diferentes tamaños: 10,000, 10,0000 y 1,000,000 elementos.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">tenThousand</span>     <span class="o">=</span> <span class="p">[];</span>
+<span class="kd">var</span> <span class="nx">hundredThousand</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="kd">var</span> <span class="nx">oneMillion</span>      <span class="o">=</span> <span class="p">[];</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1000000</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">10000</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">tenThousand</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">100000</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">hundredThousand</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="nx">oneMillion</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'tenThousand:'</span><span class="p">,</span> <span class="nx">tenThousand</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span> <span class="s1">'hundredThousand:'</span><span class="p">,</span> <span class="nx">hundredThousand</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span> <span class="s1">'oneMillion:'</span><span class="p">,</span> <span class="nx">oneMillion</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span>
+
+<span class="c1">// 6</span>
+<span class="kd">var</span> <span class="nx">tenThousand</span>     <span class="o">=</span> <span class="p">[...</span><span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="mi">10000</span><span class="p">).</span><span class="nx">keys</span><span class="p">()];</span>
+<span class="kd">var</span> <span class="nx">hundredThousand</span> <span class="o">=</span> <span class="p">[...</span><span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="mi">100000</span><span class="p">).</span><span class="nx">keys</span><span class="p">()];</span>
+<span class="kd">var</span> <span class="nx">oneMillion</span>      <span class="o">=</span> <span class="p">[...</span><span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="mi">1000000</span><span class="p">).</span><span class="nx">keys</span><span class="p">()];</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'tenThousand:'</span><span class="p">,</span> <span class="nx">tenThousand</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span> <span class="s1">'hundredThousand:'</span><span class="p">,</span> <span class="nx">hundredThousand</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span> <span class="s1">'oneMillion:'</span><span class="p">,</span> <span class="nx">oneMillion</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span></code></pre></figure>
+
+<p>Por tiempo usando "console.time" y "console.timeEnd", lo que le permite rastrear el tiempo de ejecución en MS. Cada caso se puede copiar/pegar en la terminal de la consola y jugar con las respuestas.</p>
+
+<h4 id="o1---constant-time">O(1) - Constant time</h4>
+
+<p><img src="../../../../assets/img/posts/2022/4_o_1.png" class="img-fluid" alt="O 1" /></p>
+
+<p>O(1) siempre se ejecuta al mismo tiempo (o espacio). Por ejemplo, busque el primer elemento de la matriz.
+    La matriz de entrada podría ser de 1 elemento o de 10 000, 10 0000 y 1 000 000 de elementos, pero este método solo requeriría un "paso".</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">findFirstElement</span><span class="p">(</span><span class="nx">arr</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">'O(1) - tenThousand'</span><span class="p">);</span>
+<span class="nx">findFirstElement</span><span class="p">(</span><span class="nx">tenThousand</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="s1">'O(1) - tenThousand'</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">'O(1) - hundredThousand'</span><span class="p">);</span>
+<span class="nx">findFirstElement</span><span class="p">(</span><span class="nx">hundredThousand</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="s1">'O(1) - hundredThousand'</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">'O(1) - oneMillion'</span><span class="p">);</span>
+<span class="nx">findFirstElement</span><span class="p">(</span><span class="nx">oneMillion</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="s1">'O(1) - oneMillion'</span><span class="p">);</span></code></pre></figure>
+
+<p>Todo el tiempo de ejecución será inferior a 0,01 ms.</p>
+
+<h4 id="on---linear-time-algorithm">O(N) - Linear Time Algorithm</h4>
+
+<p><img src="../../../../assets/img/posts/2022/5_On.png" class="img-fluid" alt="O(n)" /></p>
+
+<p>El peor de los casos para los datos de prueba es invertir todos los elementos de la matriz de principio a fin, por lo que requiere N iteraciones de bucle.
+    La función de caso de prueba busca por valor desde el final de la matriz hasta el comienzo.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">tenThousand</span>     <span class="o">=</span> <span class="p">[...</span><span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="mi">10000</span><span class="p">).</span><span class="nx">keys</span><span class="p">()];</span>
+<span class="kd">var</span> <span class="nx">hundredThousand</span> <span class="o">=</span> <span class="p">[...</span><span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="mi">100000</span><span class="p">).</span><span class="nx">keys</span><span class="p">()];</span>
+<span class="kd">var</span> <span class="nx">oneMillion</span>      <span class="o">=</span> <span class="p">[...</span><span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="mi">1000000</span><span class="p">).</span><span class="nx">keys</span><span class="p">()];</span>
+<span class="kd">function</span> <span class="nx">reverseArr</span><span class="p">(</span><span class="nx">arr</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">newArr</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">newArr</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">arr</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">newArr</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">'O(n) - tenThousand'</span><span class="p">);</span>
+<span class="nx">reverseArr</span><span class="p">(</span><span class="nx">tenThousand</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="s1">'O(n) - tenThousand'</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">'O(n) - hundredThousand'</span><span class="p">);</span>
+<span class="nx">reverseArr</span><span class="p">(</span><span class="nx">hundredThousand</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="s1">'O(n) - hundredThousand'</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">'O(n) - oneMillion'</span><span class="p">);</span>
+<span class="nx">reverseArr</span><span class="p">(</span><span class="nx">oneMillion</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="s1">'O(n) - oneMillion'</span><span class="p">);</span></code></pre></figure>
+
+<h4 id="on2---quadratic-time-algorithm">O(N2) - Quadratic Time Algorithm</h4>
+
+<p><img src="../../../../assets/img/posts/2022/3_data_input_extra_space.png" class="img-fluid" alt="O(n2)" /></p>
+
+<p>O(N2) representa un algoritmo cuyo rendimiento es el cuadrado del número de entradas.<a href="https://en.wikipedia.org/wiki/Selection_sort">El tiempo del algoritmo de ordenación por selección</a> crece exponencialmente en relación con el número de entradas.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">selectionSort</span><span class="p">(</span><span class="nx">items</span><span class="p">){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">items</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">min</span> <span class="o">=</span> <span class="nx">i</span><span class="p">;</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="nx">k</span><span class="o">=</span><span class="nx">i</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="nx">k</span> <span class="o">&lt;</span> <span class="nx">items</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">items</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nx">items</span><span class="p">[</span><span class="nx">min</span><span class="p">]){</span>
+                <span class="nx">min</span> <span class="o">=</span> <span class="nx">k</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">!==</span> <span class="nx">min</span><span class="p">)</span> <span class="p">{</span>
+            <span class="p">(</span><span class="kd">function</span> <span class="nx">swap</span><span class="p">(</span><span class="nx">items</span><span class="p">,</span> <span class="nx">firstIndex</span><span class="p">,</span> <span class="nx">secondIndex</span><span class="p">){</span>
+                <span class="kd">var</span> <span class="nx">temp</span> <span class="o">=</span> <span class="nx">items</span><span class="p">[</span><span class="nx">firstIndex</span><span class="p">];</span>
+                <span class="nx">items</span><span class="p">[</span><span class="nx">firstIndex</span><span class="p">]</span> <span class="o">=</span> <span class="nx">items</span><span class="p">[</span><span class="nx">secondIndex</span><span class="p">];</span>
+                <span class="nx">items</span><span class="p">[</span><span class="nx">secondIndex</span><span class="p">]</span> <span class="o">=</span> <span class="nx">temp</span><span class="p">;</span>
+            <span class="p">})(</span><span class="nx">items</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">min</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">items</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">'O(N2) - tenThousand'</span><span class="p">);</span>
+<span class="nx">selectionSort</span><span class="p">(</span><span class="nx">tenThousand</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="s1">'O(N2) - tenThousand'</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">'O(N2) - hundredThousand'</span><span class="p">);</span>
+<span class="nx">selectionSort</span><span class="p">(</span><span class="nx">hundredThousand</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="s1">'O(N2) - hundredThousand'</span><span class="p">);</span>
+
+<span class="c1">// El tiempo de ejecución de este caso de prueba es realmente largo :)</span>
+<span class="c1">// console.time('O(N2) - oneMillion');</span>
+<span class="c1">// selectionSort(oneMillion);</span>
+<span class="c1">// console.timeEnd('O(N2) - oneMillion');</span></code></pre></figure>
+
+<h4 id="o2n">O(2N)</h4>
+
+<p><img src="../../../../assets/img/posts/2022/7_o2n.png" class="img-fluid" alt="O(2n)" /></p>
+
+<p>O(2N) un algoritmo cuyo crecimiento se duplica con cada adición al conjunto de datos de entrada.
+    El famoso ejemplo es el cálculo recursivo de
+<a href="https://en.wikipedia.org/wiki/Fibonacci_number">Fibonacci number</a>.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="cm">/*
+   fibonacci(4)   .--------&gt; 2 + 1 = 3
+      |          /               |
+      '--&gt; fibonacci(3) + fibonacci(2)
+            |    ^           
+            |    '----------- 2 = 1 + 1 &lt;----------.
+1st step -&gt; |                     ^                |
+            |                     |                |
+            '----&gt;  fibonacci(2) -' + fibonacci(1)-'
+
+ */</span>
+<span class="kd">function</span> <span class="nx">fibonacci</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">n</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="p">?</span> <span class="mi">0</span>
+        <span class="p">:</span> <span class="nx">n</span> <span class="o">&lt;=</span> <span class="mi">2</span> <span class="p">?</span> <span class="mi">1</span>
+        <span class="p">:</span> <span class="nx">fibonacci</span><span class="p">(</span><span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nx">fibonacci</span><span class="p">(</span><span class="nx">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">fibonacci</span><span class="p">(</span><span class="mi">4</span><span class="p">));</span>
+
+
+<span class="c1">//Para números grandes, el tiempo de ejecución es demasiado largo, así que usemos números: 10, 20, 30:</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">'O(2N) - 10'</span><span class="p">);</span>
+<span class="nx">fibonacci</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="s1">'O(2N) - 10'</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">'O(2N) - 20'</span><span class="p">);</span>
+<span class="nx">fibonacci</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="s1">'O(2N) - 20'</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">'O(2N) - 30'</span><span class="p">);</span>
+<span class="nx">fibonacci</span><span class="p">(</span><span class="mi">30</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="s1">'O(2N) - 30'</span><span class="p">);</span></code></pre></figure>
+
+<h4 id="olog-n---logarithms">O(log n) - Logarithms</h4>
+
+<p><img src="../../../../assets/img/posts/2022/8_ologn.png" class="img-fluid" alt="O(logn)" /></p>
+
+<p>O(log n) la mayoría de los algoritmos de clasificación más rápidos como QuickSort, Merge-sort.
+    Echemos un vistazo al ejemplo del algoritmo de <a href="https://en.wikipedia.org/wiki/Binary_search_algorithm">búsqueda binaria</a>.
+    Para datos de prueba, use entradas 10,000, 100,000 y 1,000,000. Para generar elementos aleatorios de una matriz usando la biblioteca Math:
+    arr[Math.floor(Math.random() * arr.length)]
+    La búsqueda binaria se utiliza para buscar datos de entrada ordenados seleccionando el elemento medio del conjunto de datos, esencialmente la mediana, y lo compara con un valor objetivo.
+    Si los valores coinciden, devolverá el éxito.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">logTimeBinarySearch</span><span class="p">(</span><span class="nx">sortedArr</span><span class="p">,</span> <span class="nx">toSearch</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">minIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">maxIndex</span> <span class="o">=</span> <span class="nx">sortedArr</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">currentIndex</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">currentElement</span><span class="p">;</span>
+ 
+    <span class="k">while</span> <span class="p">(</span><span class="nx">minIndex</span> <span class="o">&lt;=</span> <span class="nx">maxIndex</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">currentIndex</span> <span class="o">=</span> <span class="p">(</span><span class="nx">minIndex</span> <span class="o">+</span> <span class="nx">maxIndex</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">|</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="nx">currentElement</span> <span class="o">=</span> <span class="nx">sortedArr</span><span class="p">[</span><span class="nx">currentIndex</span><span class="p">];</span>
+ 
+        <span class="k">if</span> <span class="p">(</span><span class="nx">currentElement</span> <span class="o">&lt;</span> <span class="nx">toSearch</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">minIndex</span> <span class="o">=</span> <span class="nx">currentIndex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">currentElement</span> <span class="o">&gt;</span> <span class="nx">toSearch</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">maxIndex</span> <span class="o">=</span> <span class="nx">currentIndex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">currentIndex</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+<span class="kd">var</span> <span class="nx">tenThousand</span>     <span class="o">=</span> <span class="p">[...</span><span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="mi">10000</span><span class="p">).</span><span class="nx">keys</span><span class="p">()];</span>
+<span class="kd">var</span> <span class="nx">hundredThousand</span> <span class="o">=</span> <span class="p">[...</span><span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="mi">100000</span><span class="p">).</span><span class="nx">keys</span><span class="p">()];</span>
+<span class="kd">var</span> <span class="nx">oneMillion</span>      <span class="o">=</span> <span class="p">[...</span><span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="mi">1000000</span><span class="p">).</span><span class="nx">keys</span><span class="p">()];</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">'O(log n) - tenThousand'</span><span class="p">);</span>
+<span class="nx">logTimeBinarySearch</span><span class="p">(</span><span class="nx">tenThousand</span><span class="p">,</span> <span class="nx">tenThousand</span><span class="p">[</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">tenThousand</span><span class="p">.</span><span class="nx">length</span><span class="p">)]);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="s1">'O(log n) - tenThousand'</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">'O(log n) - hundredThousand'</span><span class="p">);</span>
+<span class="nx">logTimeBinarySearch</span><span class="p">(</span><span class="nx">hundredThousand</span><span class="p">,</span> <span class="nx">hundredThousand</span><span class="p">[</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">hundredThousand</span><span class="p">.</span><span class="nx">length</span><span class="p">)]);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="s1">'O(log n) - hundredThousand'</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">'O(log n) - oneMillion'</span><span class="p">);</span>
+<span class="nx">logTimeBinarySearch</span><span class="p">(</span><span class="nx">oneMillion</span><span class="p">,</span> <span class="nx">oneMillion</span><span class="p">[</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">oneMillion</span><span class="p">.</span><span class="nx">length</span><span class="p">)]);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="s1">'O(log n) - oneMillion'</span><span class="p">);</span></code></pre></figure>
+
+<p>Aumentar el tamaño del conjunto de datos de entrada tiene poco crecimiento. Esto hace que los algoritmos O(log n) sean muy efectivos para grandes conjuntos de datos.</p>
+
+
+
+
+          </div>
+
+          
+            
+
+          
+        </div>
+      </div>
+    </main>
+</div>
+
+</section>
+
+</body>
+</html>
